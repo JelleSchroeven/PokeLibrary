@@ -1,3 +1,5 @@
+import './style.css';
+
 let allPokemon = []
 
 async function getPokemon() {
@@ -7,23 +9,30 @@ async function getPokemon() {
     allPokemon = await Promise.all(data.results.map(p => fetch(p.url).then(r => r.json())));
     showPokemon(allPokemon);
 }
-
+/**pokemonlijst**/
 function showPokemon(pokemonList) {
     const container = document.getElementById("pokemon-container");
     container.innerHTML = "";
+
     pokemonList.forEach(pokemon => {
         const div = document.createElement("div");
         div.classList.add("card");
+
         div.innerHTML = `
-      <h3>${pokemon.name}</h3>
-      <img src="${pokemon.sprites.front_default}" alt="${pokemon.name}">
-      <p>Type: ${pokemon.types.map(t => t.type.name).join(', ')}</p>
-    `;
+            <h3>${pokemon.name}</h3>
+            <img src="${pokemon.sprites.front_default}" alt="${pokemon.name}">
+            <p>Type: ${pokemon.types.map(t => t.type.name).join(', ')}</p>`;
         container.appendChild(div);
+
+        /**Klikbaren kaarten**/
+        div.addEventListener('click', () => {
+            alert(`je klikte op ${pokemon.name}`)/**tijdelijk**/
+        })
+
     });
 }
 
-// zoekfunctie
+/** zoekfunctie **/
 
 document.getElementById('search-btn').addEventListener('click', () => {
     const term = document.getElementById('search').value.toLowerCase();

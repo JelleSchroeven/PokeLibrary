@@ -32,6 +32,12 @@ body {
 #search-btn:hover {
   background-color: #f2b807;
 }
+
+
+/* de Kaarten */
+
+
+
 .card {
 
   justify-content: center;
@@ -43,7 +49,12 @@ body {
   display: inline-block;
   width: 150px;
   text-align: center;
-
+  cursor: pointer;
+  overflow: hidden;
+  transition: transform 0.2s;
+}
+.card:hover {
+  transform: scale(1.1);/*kaarte je vergroot een beetje voor leesbaarheid*/
 }
 
 h1 {
