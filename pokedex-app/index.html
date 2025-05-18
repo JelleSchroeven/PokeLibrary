@@ -2,18 +2,64 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>PokéLibrary</title>
   <link rel="stylesheet" href="/src/style.css" />
 </head>
 <body>
+
 <header>
   <h1>Poké Library</h1>
   <div class="zoekbalk">
     <input type="text" id="search" placeholder="Zoek een Pokémon..." />
-    <button id="search-btn">Zoek</button>
+
   </div>
 
+  <div class="filter-container">
+
+    <label>Filter op:</label>
+    <select id="type-filter" class="filter"> <!-- Filtert op type van pokemon -->
+      <option value="all">Alle types</option>
+      <option value="grass">Grass</option>
+      <option value="fire">Fire</option>
+      <option value="water">Water</option>
+      <option value="electric">Electric</option>
+      <option value="psychic">Psychic</option>
+      <option value="normal">Normal</option>
+      <option value="fairy">Fairy</option>
+    </select>
+
+    <select id="generation-filter" class="filter"> <!-- filterd op generatie van de pokemon-->
+      <option value="all">Alle generaties</option>
+      <option value="generation-i">Generatie 1</option>
+      <option value="generation-ii">Generatie 2</option>
+      <option value="generation-iii">Generatie 3</option>
+      <option value="generation-iv">Generatie 4</option>
+      <option value="generation-v">Generatie 5</option>
+      <option value="generation-vi">Generatie 6</option>
+      <option value="generation-vii">Generatie 7</option>
+      <option value="generation-viii">Generatie 8</option>
+    </select>
+  </div>
+
+  <div class="filter-container">
+    <label for="sort-filter">Sorteer op:</label>
+    <select id="sort-filter">
+      <option value="id-asc" selected>Pokedex nr ↑</option>
+      <option value="id-desc">Pokedex nr ↓</option>
+      <option value="name-asc">Naam A-Z</option>
+      <option value="name-desc">Naam Z-A</option>
+      <option value="weight-asc">Gewicht ↑</option>
+      <option value="weight-desc">Gewicht ↓</option>
+      <option value="height-asc">Grootte ↑</option>
+      <option value="height-desc">Grootte ↓</option>
+    </select>
+  </div>
+
+
+
 </header>
+
 <main id="pokemon-container"></main>
 
 <script type="module" src="/src/main.js"></script>

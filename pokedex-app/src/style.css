@@ -19,19 +19,21 @@ body {
   border:2px Solid #cc0000;/* donkerrood zoals de pokedex */
   width: 250px;
 }
-#search-btn {
-  padding: 0.5rem 1rem;
-  font-size: 1rem;
-  background-color: #ffcb05; /* Geel zoals Pikachu */
-  color: #2a75bb;            /* Blauw zoals PokeBall */
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: background 0.3s;
+
+/*FIlters */
+.filter-container{
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin: 15px 0;
+  flex-wrap: wrap;
 }
-#search-btn:hover {
-  background-color: #f2b807;
+.filter {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
 }
+
 
 
 /* de Kaarten */
@@ -60,4 +62,7 @@ body {
 h1 {
   text-align: center;
 }
+
+
+
 
