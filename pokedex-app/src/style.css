@@ -58,6 +58,22 @@ body {
 .card:hover {
   transform: scale(1.1);/*kaarte je vergroot een beetje voor leesbaarheid*/
 }
+.favorite-btn{
+  background: none;
+  border: none;
+  padding: 0.2rem;
+  cursor: pointer;
+  display: inline-block;
+}
+.favorite-btn img {
+  width: 24px;
+  height: 24px;
+}
+
+.favorite-btn.not-favorite img {
+  opacity: 0.4;
+  filter: grayscale(100%);
+}
 
 h1 {
   text-align: center;

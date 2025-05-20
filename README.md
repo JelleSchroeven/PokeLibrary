@@ -1,38 +1,55 @@
-# PokeLibrary
-Overzicht
-PokéLibrary is een interactieve Pokédex-webapplicatie gebouwd met HTML, CSS en JavaScript. De applicatie maakt gebruik van de PokéAPI om gegevens over Pokémon op te halen. Gebruikers kunnen zoeken, filteren en sorteren op verschillende eigenschappen zoals naam, type, generatie, gewicht, grootte en Pokédex-nummer. De interface is eenvoudig, gebruiksvriendelijk en responsief.
+# PokéLibrary – Pokedex Webapp
 
-Toegepaste JavaScript-concepten
-Variabelen en constante waarden
-In dit project zijn variabelen en constante waarden gebruikt om data op te slaan en herbruikbaar te maken, zoals het bewaren van de volledige Pokémonlijst en het ophalen van gebruikersinput.
+Welkom bij **PokéLibrary**, een interactieve Pokedex-webapp gebouwd met HTML, CSS en JavaScript. In deze applicatie kan je Pokémon filteren, sorteren en favorieten aanduiden. De data wordt opgehaald via de officiële PokéAPI.
 
-Functies
-Het project maakt gebruik van gestructureerde functies die taken uitvoeren zoals het ophalen van data, het weergeven van de resultaten op de pagina, en het toepassen van filters en sorteringen op basis van gebruikersacties.
+##  Functionaliteiten
 
-Arrays & Array-methodes
-Er is veel gebruik gemaakt van array-methodes om met de opgehaalde gegevens te werken. Denk aan filteren, sorteren, doorlopen van lijsten en controleren van eigenschappen van objecten binnen arrays.
+- ✅ Zoek Pokémon op naam.
+- ✅ Filter op type (bijv. fire, grass).
+- ✅ Filter op generatie (Gen I–VIII).
+- ✅ Sorteer op naam, gewicht, grootte of Pokédex-nummer.
+- ✅ Sla favorieten op via `localStorage`.
+- ✅ Alleen favorieten tonen via checkbox.
 
-Objecten
-Elke Pokémon wordt voorgesteld als een object met verschillende eigenschappen. Deze objecten worden gebruikt om dynamisch HTML-inhoud te genereren en logica toe te passen bij filtering en sortering.
+##  Gebruikte JavaScript-concepten
 
-DOM-manipulatie
-De gebruikersinterface wordt volledig opgebouwd met JavaScript door elementen aan te maken, inhoud in te voegen en deze aan de pagina toe te voegen of te verwijderen, afhankelijk van de gebruikersinteractie.
+Onderstaande concepten zijn toegepast in dit project, met concrete voorbeelden:
 
-Event Listeners
-Gebruikersinteracties zoals het wijzigen van filters, typen in het zoekveld of klikken op een sorteeroptie worden afgehandeld via event listeners die gekoppeld zijn aan de juiste functies.
+| Concept             | Toelichting                                                                 | Voorbeeld (regel)               |
+|---------------------|------------------------------------------------------------------------------|---------------------------------|
+| `Array.map()`       | Transformeert de lijst van opgehaalde Pokémon-URLs naar gedetailleerde data | `data.results.map(...)` (regel 11) |
+| `Array.filter()`    | Filtert de lijst o.b.v. zoekterm, type, generatie en favoriet               | `allPokemon.filter(...)` (regel 74) |
+| `Array.sort()`      | Sorteert Pokémon op ID, naam, gewicht of grootte                            | `filtered.sort(...)` (regel 89) |
+| `async/await`       | Voor het asynchroon ophalen van API-data                                    | `async function getPokemon()` (regel 6) |
+| `localStorage`      | Slaat favoriete Pokémon op tussen sessies                                   | `localStorage.setItem(...)` (regel 58) |
+| `addEventListener()`| Registreert gebruikersinteracties                                           | `document.getElementById(...).addEventListener(...)` (regel 110+) |
+| DOM-manipulatie     | Dynamisch toevoegen van kaarten in de UI                                    | `div.innerHTML = ...` (regel 37) |
+| `stopPropagation()` | Voorkomt dat een klik op de favorietknop ook de kaartclick activeert        | `e.stopPropagation()` (regel 53) |
 
-Asynchrone JavaScript & Fetch API
-De toepassing maakt gebruik van fetch en async/await om gegevens op te halen van een externe API. Hierdoor worden alle benodigde gegevens binnengehaald zonder de pagina te herladen.
+## 📁 Bestandsstructuur
+src/
+├── main.js # JavaScript logica
+├── style.css # Stijling
+└── index.html # HTML structuur
 
-Conditionele logica
-Er wordt gebruik gemaakt van voorwaardelijke logica om te bepalen welke Pokémon zichtbaar moeten zijn op basis van zoektermen, filters en sorteerinstellingen.
+## 🧪 Gebruikte tools & API
 
-Modules (ES Modules)
-Het JavaScript-bestand wordt als een ES-module geladen, wat zorgt voor een moderne structuur en betere beheersbaarheid van de code.
+- JavaScript (ES6+)
+- HTML5
+- CSS3
+- [PokeAPI](https://pokeapi.co/)
 
-Auteur
-Naam: Jelle Schroeven
-Klas: 1baTI
-Schooljaar: 2024–2025
-Project: Pokedex Webapp – JavaScript Integratieproject
+## 🖼️ Screenshots
+
+*(nog toe te voegen waneer voledig klaar)*
+
+---
+
+## Auteur
+
+**Naam:** Jelle Schroeven  
+**Klas:** 1BaTI  
+**Schooljaar:** 2024–2025  
+**Project:** Pokedex Webapp – JavaScript Integratieproject  
+
 

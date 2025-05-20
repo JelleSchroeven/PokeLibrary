@@ -2,9 +2,13 @@ import './style.css';
 
 let allPokemon = []
 
-async function getPokemon() {
+console.log("Script gestart");
 
-    const response = await fetch('https://pokeapi.co/api/v2/pokemon?limit=898');
+
+async function getPokemon() {
+    console.log("Bezig met data ophalen van API...");
+
+    const response = await fetch('https://pokeapi.co/api/v2/pokemon?limit=151');
     const data = await response.json();
 
     allPokemon = await Promise.all(data.results.map(async p => {
@@ -22,9 +26,12 @@ async function getPokemon() {
 
 
 /**pokemonlijst**/
+
 function showPokemon(pokemonList) {
     const container = document.getElementById("pokemon-container");
     container.innerHTML = "";
+
+    const favorites = JSON.parse(localStorage.getItem("favorites")) || [];
 
     pokemonList.forEach(pokemon => {
         const div = document.createElement("div");
@@ -33,16 +40,41 @@ function showPokemon(pokemonList) {
         div.innerHTML = `
             <h3>${pokemon.name}</h3>
             <img src="${pokemon.sprites.front_default}" alt="${pokemon.name}">
-            <p>Type: ${pokemon.types.map(t => t.type.name).join(', ')}</p>`;
-        container.appendChild(div);
+            <p>Type: ${pokemon.types.map(t => t.type.name).join(', ')}</p>
+            <button class="favorite-btn" data-id="${pokemon.id}">
+                <img src="pokeball-png-45330.png" alt="Favoriet">
+            </button>
+        `;
 
-        /**Klikbaren kaarten**/
+        const button = div.querySelector('.favorite-btn');
+        const isFavorite = favorites.includes(pokemon.id);
+        if (!isFavorite) {
+            button.classList.add('not-favorite'); // fix hier: juiste class
+        }
+
+        button.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const favs = JSON.parse(localStorage.getItem("favorites")) || [];
+            const index = favs.indexOf(pokemon.id);
+            if (index === -1) {
+                favs.push(pokemon.id);
+                button.classList.remove('not-favorite');
+            } else {
+                favs.splice(index, 1);
+                button.classList.add('not-favorite');
+            }
+            localStorage.setItem("favorites", JSON.stringify(favs));
+        });
+
         div.addEventListener('click', () => {
-            alert(`je klikte op ${pokemon.name}`)/**tijdelijk**/
-        })
+            alert(`je klikte op ${pokemon.name}`);
+        });
 
+        container.appendChild(div);
     });
 }
+
+
 
 /** zoekfunctie en Filters **/
 
@@ -51,18 +83,26 @@ function applyFilters() {
     const selectedType = document.getElementById('type-filter').value;/** filter op Type**/
     const selectedGeneration = document.getElementById('generation-filter').value;/** filter op generatie**/
     const sortOption = document.getElementById('sort-filter').value /** Sorteer functie**/
+    const favoritesOnly = document.getElementById('favorites-only').checked;
+    //favorieten worden altijd als nummers gelezen
+    const favorites = (JSON.parse(localStorage.getItem("favorites")) || []).map(Number);
+//test
+    console.log("🔍 Checkbox actief?", favoritesOnly);
+    console.log("💾 Favorieten uit localStorage:", favorites);
 
     const filtered = allPokemon.filter(pokemon => {
         const nameMatches = pokemon.name.toLowerCase().includes(searchTerm);
-        const typeMatches = selectedType === "all" ||
-            pokemon.types.some(t => t.type.name === selectedType);
-        const generationMatches = selectedGeneration === "all" ||
-            pokemon.generation === selectedGeneration;
+        const typeMatches = selectedType === "all" || pokemon.types.some(t => t.type.name === selectedType);
+        const generationMatches = selectedGeneration === "all" || pokemon.generation === selectedGeneration;
+        const isFavorite = !favoritesOnly || favorites.includes(pokemon.id);
 
-        return nameMatches && typeMatches && generationMatches;
+        return nameMatches && typeMatches && generationMatches && isFavorite;
     });
-/** De sorteer functie (de logica)**/
-filtered.sort((a, b) => {
+
+    console.log("Gefilterde lijst", filtered);// Test
+
+    /** De sorteer functie (de logica)**/
+    filtered.sort((a, b) => {
     switch (sortOption) {
         case 'name-asc':
             return a.name.localeCompare(b.name);
@@ -81,18 +121,24 @@ filtered.sort((a, b) => {
         case 'height-desc':
             return b.height - a.height;
         default:
-            return a.id - b.id; // fallback naar id oplopend
+            return a.id - b.id; // standaard sort naar id oplopend
     }
     });
+//test
+    console.log("✅ Gefilterde lijst:", filtered.map(p => p.name));
 
     showPokemon(filtered);
 }
 
+window.addEventListener("DOMContentLoaded", () =>{
+    document.getElementById('generation-filter').addEventListener('change', applyFilters);
+    document.getElementById('type-filter').addEventListener('change', applyFilters);
+    document.getElementById('sort-filter').addEventListener('change', applyFilters);
+    document.getElementById('search').addEventListener('input', applyFilters);
+    document.getElementById('favorites-only').addEventListener('change', applyFilters);
 
-document.getElementById('generation-filter').addEventListener('change', applyFilters);
-document.getElementById('type-filter').addEventListener('change', applyFilters);
-document.getElementById('sort-filter').addEventListener('change', applyFilters);
-document.getElementById('search').addEventListener('input', applyFilters);
+    getPokemon();
+});
 
 
-getPokemon();
+
