@@ -1,28 +1,54 @@
 import './style.css';
 
 let allPokemon = []
+//nodig voor lazy loading
+let loadedPokemon = [];
+let offset = 0;
+const limit = 50;
+let isLoading = false;
 
 console.log("Script gestart");
 
+function generatieNaarGetal(generationName) {
+    const map = {
+        "generation-i": 1,
+        "generation-ii": 2,
+        "generation-iii": 3,
+        "generation-iv": 4,
+        "generation-v": 5,
+        "generation-vi": 6,
+        "generation-vii": 7,
+        "generation-viii": 8,
+    };
+    return map[generationName] || '?';
+}
+// lazy loading  ophalen pokemon
+async function getPokemonBatch(offset, limit) {
+    console.log(`Bezig met batch ophalen: offset ${offset}, limit ${limit}`);
+    isLoading = true;
 
-async function getPokemon() {
-    console.log("Bezig met data ophalen van API...");
+    try {
+        const response = await fetch(`https://pokeapi.co/api/v2/pokemon?offset=${offset}&limit=${limit}`);
+        const data = await response.json();
 
-    const response = await fetch('https://pokeapi.co/api/v2/pokemon?limit=151');
-    const data = await response.json();
+        const batch = await Promise.all(data.results.map(async p => {
+            const pokemonData = await fetch(p.url).then(r => r.json());
+            const speciesData = await fetch(pokemonData.species.url).then(r => r.json());
+            pokemonData.generation = speciesData.generation.name;
+            return pokemonData;
+        }));
 
-    allPokemon = await Promise.all(data.results.map(async p => {
-        const pokemonData = await fetch(p.url).then(r => r.json());
-        const speciesData = await fetch(pokemonData.species.url).then(r => r.json());
+        allPokemon.push(...batch);
+        loadedPokemon.push(...batch);
+        applyFilters(); // Laatste filtering toepassen op volledige lijst
 
-        // Voegt de generatie info toe aan het pokemon object
-        pokemonData.generation = speciesData.generation.name; // bv. 'generation-i'
-
-        return pokemonData;
-    }));
-
-    applyFilters();
+    } catch (error) {
+        console.error("Fout bij het laden van Pokémon batch:", error);
     }
+
+    isLoading = false;
+}
+
 
 
 /**pokemonlijst**/
@@ -38,12 +64,16 @@ function showPokemon(pokemonList) {
         div.classList.add("card");
 
         div.innerHTML = `
-            <h3>${pokemon.name}</h3>
+            <h3>${pokemon.id}) ${pokemon.name} </h3>
             <img src="${pokemon.sprites.front_default}" alt="${pokemon.name}">
             <p>Type: ${pokemon.types.map(t => t.type.name).join(', ')}</p>
+            <p>Height: ${pokemon.height*10} CM</p>
+            <p>Weight: ${pokemon.weight/10} KG</p>
+            <p>Generatie: ${generatieNaarGetal(pokemon.generation)}</p>
             <button class="favorite-btn" data-id="${pokemon.id}">
                 <img src="pokeball-png-45330.png" alt="Favoriet">
             </button>
+            
         `;
 
         const button = div.querySelector('.favorite-btn');
@@ -87,8 +117,8 @@ function applyFilters() {
     //favorieten worden altijd als nummers gelezen
     const favorites = (JSON.parse(localStorage.getItem("favorites")) || []).map(Number);
 //test
-    console.log("🔍 Checkbox actief?", favoritesOnly);
-    console.log("💾 Favorieten uit localStorage:", favorites);
+    console.log(" Checkbox actief?", favoritesOnly);
+    console.log(" Favorieten uit localStorage:", favorites);
 
     const filtered = allPokemon.filter(pokemon => {
         const nameMatches = pokemon.name.toLowerCase().includes(searchTerm);
@@ -125,7 +155,7 @@ function applyFilters() {
     }
     });
 //test
-    console.log("✅ Gefilterde lijst:", filtered.map(p => p.name));
+    console.log(" Gefilterde lijst:", filtered.map(p => p.name));
 
     showPokemon(filtered);
 }
@@ -137,8 +167,22 @@ window.addEventListener("DOMContentLoaded", () =>{
     document.getElementById('search').addEventListener('input', applyFilters);
     document.getElementById('favorites-only').addEventListener('change', applyFilters);
 
-    getPokemon();
+
+    getPokemonBatch(offset, limit);
+
+    //  Lazy loading bij scroll
+    window.addEventListener("scroll", () => {
+        if (
+            window.innerHeight + window.scrollY >= document.body.offsetHeight - 100  &&
+            !isLoading
+        ) {
+            offset += limit;
+            getPokemonBatch(offset, limit);
+
+        }
+    });
 });
+
 
 
 

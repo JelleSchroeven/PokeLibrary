@@ -44,7 +44,12 @@ src/
 *(nog toe te voegen waneer voledig klaar)*
 
 ---
+## bronnen 
 
+stack Overflow: https://stackoverflow.com/questions/20835544/how-to-fight-tons-of-unresolved-variables-warning-in-webstorm
+
+
+---
 ## Auteur
 
 **Naam:** Jelle Schroeven  

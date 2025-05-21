@@ -37,12 +37,9 @@ body {
 
 
 /* de Kaarten */
-
-
-
 .card {
 
-  justify-content: center;
+  justify-content: space-evenly;
   background: white;
   padding: 1rem;
   margin: 1rem;
@@ -56,7 +53,7 @@ body {
   transition: transform 0.2s;
 }
 .card:hover {
-  transform: scale(1.1);/*kaarte je vergroot een beetje voor leesbaarheid*/
+  transform: scale(1.3);/*kaarte je vergroot een beetje voor leesbaarheid*/
 }
 .favorite-btn{
   background: none;
