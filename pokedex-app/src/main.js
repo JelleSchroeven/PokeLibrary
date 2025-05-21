@@ -1,8 +1,6 @@
 import './style.css';
 
-let allPokemon = []
-
-//nodig voor lazy loading
+let allPokemon = [];
 let loadedPokemon = [];
 let offset = 0;
 const limit = 40;
@@ -10,13 +8,10 @@ let isLoading = false;
 
 console.log("Script gestart");
 
-// Get the button:
-let scrollToTop = document.getElementById("backToTopBtn");
-
-// When the user scrolls down 20px from the top of the document, show the button
-window.onscroll = function() {scrollFunction()};
-
 function scrollFunction() {
+    const scrollToTop = document.getElementById("backToTopBtn");
+    if (!scrollToTop) return;
+
     if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
         scrollToTop.style.display = "block";
     } else {
@@ -28,7 +23,6 @@ function topFunction() {
     document.body.scrollTop = 0;
     document.documentElement.scrollTop = 0;
 }
-
 
 function generatieNaarGetal(generationName) {
     const map = {
@@ -64,7 +58,7 @@ async function preloadAllPokemon() {
     }
 }
 
-// lazy loading  ophalen pokemon
+// Lazy loading ophalen pokemon
 async function getPokemonBatch(offset, limit) {
     console.log(`Bezig met batch ophalen: offset ${offset}, limit ${limit}`);
     isLoading = true;
@@ -95,10 +89,7 @@ async function getPokemonBatch(offset, limit) {
     isLoading = false;
 }
 
-
-
-/**pokemonlijst**/
-
+// Toon lijst van Pokémon
 function showPokemon(pokemonList) {
     const container = document.getElementById("pokemon-container");
     container.innerHTML = "";
@@ -113,19 +104,18 @@ function showPokemon(pokemonList) {
             <h3>${pokemon.id}) ${pokemon.name} </h3>
             <img src="${pokemon.sprites.front_default}" alt="${pokemon.name}">
             <p>Type: ${pokemon.types.map(t => t.type.name).join(', ')}</p>
-            <p>Height: ${pokemon.height*10} CM</p>
-            <p>Weight: ${pokemon.weight/10} KG</p>
+            <p>Height: ${pokemon.height * 10} CM</p>
+            <p>Weight: ${pokemon.weight / 10} KG</p>
             <p>Generatie: ${generatieNaarGetal(pokemon.generation)}</p>
             <button class="favorite-btn" data-id="${pokemon.id}">
                 <img src="pokeball-png-45330.png" alt="Favoriet">
             </button>
-            
         `;
 
         const button = div.querySelector('.favorite-btn');
         const isFavorite = favorites.includes(pokemon.id);
         if (!isFavorite) {
-            button.classList.add('not-favorite'); // fix hier: juiste class
+            button.classList.add('not-favorite');
         }
 
         button.addEventListener('click', (e) => {
@@ -150,126 +140,65 @@ function showPokemon(pokemonList) {
     });
 }
 
-
-
-/** zoekfunctie en Filters **/
+// Filters toepassen
 let hasPreloaded = false;
 
 async function applyFilters() {
-
     if (!hasPreloaded) {
         await preloadAllPokemon();
         hasPreloaded = true;
     }
 
-    const searchTerm = document.getElementById('search').value.toLowerCase();/** filter op Zoekbalk**/
-    const selectedType = document.getElementById('type-filter').value;/** filter op Type**/
-    const selectedGeneration = document.getElementById('generation-filter').value;/** filter op generatie**/
-    const sortOption = document.getElementById('sort-filter').value /** Sorteer functie**/
+    const searchTerm = document.getElementById('search').value.toLowerCase();
+    const selectedType = document.getElementById('type-filter').value;
+    const selectedGeneration = document.getElementById('generation-filter').value;
+    const sortOption = document.getElementById('sort-filter').value;
     const favoritesOnly = document.getElementById('favorites-only').checked;
-    //favorieten worden altijd als nummers gelezen
     const favorites = (JSON.parse(localStorage.getItem("favorites")) || []).map(Number);
-//test
-    console.log(" Checkbox actief?", favoritesOnly);
-    console.log(" Favorieten uit localStorage:", favorites);
 
     const filtered = allPokemon.filter(pokemon => {
         const nameMatches = pokemon.name.toLowerCase().includes(searchTerm);
         const typeMatches = selectedType === "all" || pokemon.types.some(t => t.type.name === selectedType);
         const generationMatches = selectedGeneration === "all" || pokemon.generation === selectedGeneration;
-        const isFavorite = !favoritesOnly || favorites.includes(pokemon.id);
+        const isFavorite = !favoritesOnly || favorites.includes(Number(pokemon.id));
 
         return nameMatches && typeMatches && generationMatches && isFavorite;
     });
 
-    console.log("Gefilterde lijst", filtered);// Test
-
-    /** De sorteer functie (de logica)**/
     filtered.sort((a, b) => {
-    switch (sortOption) {
-        case 'name-asc':
-            return a.name.localeCompare(b.name);
-        case 'name-desc':
-            return b.name.localeCompare(a.name);
-        case 'id-asc':
-            return a.id - b.id;
-        case 'id-desc':
-            return b.id - a.id;
-        case 'weight-asc':
-            return a.weight - b.weight;
-        case 'weight-desc':
-            return b.weight - a.weight;
-        case 'height-asc':
-            return a.height - b.height;
-        case 'height-desc':
-            return b.height - a.height;
-        default:
-            return a.id - b.id; // standaard sort naar id oplopend
-    }
+        switch (sortOption) {
+            case 'name-asc': return a.name.localeCompare(b.name);
+            case 'name-desc': return b.name.localeCompare(a.name);
+            case 'id-asc': return a.id - b.id;
+            case 'id-desc': return b.id - a.id;
+            case 'weight-asc': return a.weight - b.weight;
+            case 'weight-desc': return b.weight - a.weight;
+            case 'height-asc': return a.height - b.height;
+            case 'height-desc': return b.height - a.height;
+            default: return a.id - b.id;
+        }
     });
-//test
-    console.log(" Gefilterde lijst:", filtered.map(p => p.name));
 
     showPokemon(filtered);
 }
 
-window.addEventListener("DOMContentLoaded", () =>{
+// Start script zodra DOM geladen is
+window.addEventListener("DOMContentLoaded", () => {
     document.getElementById('generation-filter').addEventListener('change', applyFilters);
     document.getElementById('type-filter').addEventListener('change', applyFilters);
     document.getElementById('sort-filter').addEventListener('change', applyFilters);
     document.getElementById('search').addEventListener('input', applyFilters);
     document.getElementById('favorites-only').addEventListener('change', applyFilters);
 
-
     getPokemonBatch(offset, limit);
 
-    //naar de top scrollen
-    document.getElementById('backToTopBtn').addEventListener('click',topFunction)
+    document.getElementById('backToTopBtn').addEventListener('click', topFunction);
+    window.onscroll = scrollFunction;
 
-    // Thema onthouden en toepassen
     const savedTheme = localStorage.getItem("theme") || "light";
     document.body.classList.add(`${savedTheme}-theme`);
     updateThemeIcon(savedTheme);
 
-    document.getElementById("theme-toggle").addEventListener("click", toggleTheme);
-
-    //  Lazy loading bij scroll zonder dat het doorgaat bij filters
-    window.addEventListener("scroll", () => {
-        const isFiltered =
-            document.getElementById('generation-filter').value !== "all" ||
-            document.getElementById('type-filter').value !== "all" ||
-            document.getElementById('search').value.trim() !== "" ||
-            document.getElementById('favorites-only').checked;
-
-        if (
-            window.innerHeight + window.scrollY >= document.body.offsetHeight - 80 &&
-            !isLoading &&
-            !isFiltered //  LAZY LOADING UIT als er een filter actief is
-        ) {
-            offset += limit;
-            getPokemonBatch(offset, limit);
-        }
-    });
-
-});
-
-// Thema wisselen
-function toggleTheme() {
-    const currentTheme = document.body.classList.contains("dark-theme") ? "dark" : "light";
-    const newTheme = currentTheme === "dark" ? "light" : "dark";
-
-    document.body.classList.remove(`${currentTheme}-theme`);
-    document.body.classList.add(`${newTheme}-theme`);
-    localStorage.setItem("theme", newTheme);
-
-    updateThemeIcon(newTheme); // <- update het icoon
-}
-function updateThemeIcon(theme) {
-    const icon = document.getElementById("theme-icon");
-    icon.src = theme === "dark" ? "/sun-icon.png" : "/moon-icon.png";
-
-}
-document.addEventListener("DOMContentLoaded", () => {
     const themeToggle = document.getElementById("theme-toggle");
     const themeIcon = document.getElementById("theme-icon");
 
@@ -278,11 +207,6 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
     }
 
-    // Zet huidige thema uit localStorage of default op light
-    const savedTheme = localStorage.getItem("theme") || "light";
-    document.body.classList.add(`${savedTheme}-theme`);
-    themeIcon.src = savedTheme === "dark" ? "/sun-icon.png" : "/moon-icon.png";
-
     themeToggle.addEventListener("click", () => {
         const isDark = document.body.classList.contains("dark-theme");
         document.body.classList.toggle("dark-theme", !isDark);
@@ -290,6 +214,41 @@ document.addEventListener("DOMContentLoaded", () => {
         localStorage.setItem("theme", isDark ? "light" : "dark");
         themeIcon.src = isDark ? "/moon-icon.png" : "/sun-icon.png";
     });
+
+    function isFilterActief() {
+        return (
+            document.getElementById('generation-filter').value !== "all" ||
+            document.getElementById('type-filter').value !== "all" ||
+            document.getElementById('search').value.trim() !== "" ||
+            document.getElementById('favorites-only').checked
+        );
+    }
+
+    window.addEventListener("scroll", () => {
+        if (
+            window.innerHeight + window.scrollY >= document.body.offsetHeight - 80 &&
+            !isLoading &&
+            !isFilterActief()
+        ) {
+            offset += limit;
+            getPokemonBatch(offset, limit);
+        }
+    });
 });
 
+// Thema functies
+function toggleTheme() {
+    const currentTheme = document.body.classList.contains("dark-theme") ? "dark" : "light";
+    const newTheme = currentTheme === "dark" ? "light" : "dark";
 
+    document.body.classList.remove(`${currentTheme}-theme`);
+    document.body.classList.add(`${newTheme}-theme`);
+    localStorage.setItem("theme", newTheme);
+
+    updateThemeIcon(newTheme);
+}
+
+function updateThemeIcon(theme) {
+    const icon = document.getElementById("theme-icon");
+    icon.src = theme === "dark" ? "/sun-icon.png" : "/moon-icon.png";
+}
