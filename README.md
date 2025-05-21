@@ -48,7 +48,8 @@ src/
 
 stack Overflow: https://stackoverflow.com/questions/20835544/how-to-fight-tons-of-unresolved-variables-warning-in-webstorm
 Mozilla: https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_flexible_box_layout/Aligning_items_in_a_flex_container
-
+Mozilla: https://developer.mozilla.org/en-US/docs/Web/Performance/Guides/Lazy_loading
+https://www.w3schools.com/howto/howto_js_scroll_to_top.asp  
 ---
 ## Auteur
 
