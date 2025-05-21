@@ -64,6 +64,10 @@
 ---
 
 ##  Screenshots
+![image](https://github.com/user-attachments/assets/300b12e3-f256-4b76-95da-03ba302342ac)
+![image](https://github.com/user-attachments/assets/99d02c54-473d-421d-944c-875bfc44533e)
+![image](https://github.com/user-attachments/assets/2d488f4e-1f40-430d-9c8a-5b1b4ea8bd0b)
+
 
 *(Worden toegevoegd wanneer het project volledig afgewerkt is)*
 
