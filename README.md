@@ -1,60 +1,88 @@
-# PokéLibrary – Pokedex Webapp
+# PokéLibrary – JavaScript Pokedex Webapp
 
-**PokéLibrary** is een interactieve Pokedex-webapp gebouwd met HTML, CSS en JavaScript. De app laat je toe Pokémon te zoeken, filteren, sorteren en markeren als favoriet. De gegevens worden opgehaald via de officiële PokéAPI.
-
----
-
-## ✅ Functionaliteiten
-
-- Zoek Pokémon op naam via een live zoekbalk.
-- Filter op **type** (bv. Fire, Grass).
-- Filter op **generatie** (Gen I–VIII).
-- Sorteer op naam, gewicht, grootte of Pokédex-nummer.
-- Sla favorieten op met `localStorage`.
-- Toon enkel favorieten via checkbox.
-- Thema wisselen (donker/licht) met toggle-knop.
-- Lazy loading: automatisch meer Pokémon laden bij scrollen.
+**PokéLibrary** is een interactieve Pokedex-webapp gebouwd met HTML, CSS en JavaScript. In deze applicatie kun je Pokémon zoeken, filteren, sorteren en als favoriet aanduiden. De gegevens worden opgehaald via de [PokéAPI](https://pokeapi.co/).
 
 ---
 
-## 📦 Gebruikte JavaScript-concepten
+## Functionaliteiten
 
-| Concept               | Beschrijving                                                                 | Regelvoorbeeld uit code         |
-|------------------------|------------------------------------------------------------------------------|----------------------------------|
-| `Array.map()`         | Verwerkt API-respons en transformeert naar een array van Pokémon-data        | `data.results.map(...)` (± regel 42) |
-| `Array.filter()`      | Filtert Pokémon o.b.v. type, naam, generatie en favoriet                     | `allPokemon.filter(...)` (± regel 95) |
-| `Array.sort()`        | Sorteert Pokémon volgens de geselecteerde optie                              | `filtered.sort(...)` (± regel 108) |
-| `async/await`         | Voor het asynchroon ophalen van data van de API                              | `async function getPokemonBatch(...)` (± regel 25) |
-| `localStorage`        | Opslaan en ophalen van favorieten tussen sessies                             | `localStorage.setItem(...)` / `getItem(...)` (± regel 69) |
-| `addEventListener()`  | Gebruikersinteracties afhandelen zoals clicks of input events                | `addEventListener(...)` (± regel 143) |
-| DOM-manipulatie       | Dynamisch aanmaken en vullen van elementen (HTML kaarten)                    | `div.innerHTML = ...` (± regel 55) |
-| `stopPropagation()`   | Voorkomt dat klikken op een knop de onderliggende kaart ook triggert         | `e.stopPropagation()` (± regel 67) |
-| Lazy Loading          | Pokémon laden bij scrollen (in batches van 40)                               | `window.addEventListener('scroll', ...)` (± regel 163) |
+-  Zoek Pokémon op naam
+-  Filter op type (bv. Fire, Water)
+-  Filter op generatie (Gen I–VIII)
+-  Sorteer op naam, gewicht, grootte of Pokédex-nummer
+-  Voeg Pokémon toe aan favorieten met `localStorage`
+-  Toon enkel favorieten via een checkbox
+- Donker-/lichtthema toggle met icoon en opslag
+-  Lazy loading: automatisch meer Pokémon laden bij scrollen
+-  Scroll-to-top knop
 
 ---
 
-## 🧪 Gebruikte tools & API
+## Gebruikte API
 
-- ✅ **JavaScript (ES6+)**
-- ✅ **HTML5**
-- ✅ **CSS3 (Flexbox, dark/light theme)**
-- ✅ **[PokeAPI](https://pokeapi.co/)** – Voor Pokémongegevens
+| API      | Beschrijving              | Link                 |
+|----------|---------------------------|----------------------|
+| PokéAPI  | Haalt Pokémon-gegevens op | https://pokeapi.co/  |
 
 ---
 
-## 🔗 Bronnen
+##  Gebruikte JavaScript-concepten
 
-- [PokeAPI](https://pokeapi.co/)
-- [MDN Web Docs – Lazy Loading](https://developer.mozilla.org/en-US/docs/Web/Performance/Guides/Lazy_loading)
-- [MDN Flexbox alignment](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_flexible_box_layout/Aligning_items_in_a_flex_container)
-- [StackOverflow – WebStorm Unresolved Variables](https://stackoverflow.com/questions/20835544/how-to-fight-tons-of-unresolved-variables-warning-in-webstorm)
-- [W3Schools – Scroll to top](https://www.w3schools.com/howto/howto_js_scroll_to_top.asp)
+| Concept             | Uitleg                                                               | Voorbeeld (regel)               |
+|---------------------|----------------------------------------------------------------------|---------------------------------|
+| `fetch()`           | Ophalen van Pokémon en soorten via API                               | Regels 26–45, 50–66             |
+| `async/await`       | Asynchroon werken met API-calls                                      | Regels 26, 50                   |
+| `Array.map()`       | Omzetten van API-resultaten naar objecten                            | Regel 42, 64                    |
+| `Array.filter()`    | Filtering van de dataset op naam, type, generatie, favorieten        | Regel 95                        |
+| `Array.sort()`      | Sorteren op naam, ID, gewicht of hoogte                              | Regel 105                       |
+| `localStorage`      | Favorieten en themakeuze onthouden                                   | Regels 70, 110                  |
+| `addEventListener()`| Gebruikersinteractie zoals klik, input, scroll                        | Regels 143–160                  |
+| DOM-manipulatie     | Dynamisch toevoegen van kaarten aan de HTML                          | Regel 56                        |
+| `stopPropagation()` | Voorkomt bubbling van favorietknop                                   | Regel 67                        |
+| Lazy Loading        | Meer Pokémon laden bij scroll naar onderkant                         | Regels 162–172                  |
+| Thema toggling      | Wisselen tussen donker en licht + icoon wisselen                     | Regels 173–187                  |
+
+---
+
+## ️ Installatiehandleiding
+
+1. **Clone de repository**
+   ```bash
+   git clone https://github.com/JelleSchroeven/PokeLibrary.git
+   cd PokeLibrary
+   ```
+
+2. **Start een lokale server (bijvoorbeeld met Live Server in VS Code)**
+    - Installeer de Live Server-extensie
+    - Rechtermuisklik op `index.html` → "Open with Live Server"
+
+3. **Open in je browser**
+   ```
+   http://localhost:5500/
+   ```
+
+---
+
+##  Screenshots
+
+*(Worden toegevoegd wanneer het project volledig afgewerkt is)*
+
+---
+
+##  Gebruikte bronnen
+
+- [PokéAPI](https://pokeapi.co/)
+- [MDN - Flexbox Aligning Items](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_flexible_box_layout/Aligning_items_in_a_flex_container)
+- [MDN - Lazy Loading](https://developer.mozilla.org/en-US/docs/Web/Performance/Guides/Lazy_loading)
+- [W3Schools - Scroll to Top](https://www.w3schools.com/howto/howto_js_scroll_to_top.asp)
+- [StackOverflow - WebStorm warnings](https://stackoverflow.com/questions/20835544/how-to-fight-tons-of-unresolved-variables-warning-in-webstorm)
 - Zon-icoon: [PNGEgg Zon](https://www.pngegg.com/en/png-fnkkd)
 - Maan-icoon: [PNGEgg Maan](https://www.pngegg.com/en/png-fnkke/download)
+- **AI Chatlog**: Advies en debugging via ChatGPT (OpenAI)
 
 ---
 
-## 👤 Auteur
+##  Auteur
 
 **Naam:** Jelle Schroeven  
 **Klas:** 1BaTI  
