@@ -33,7 +33,26 @@ body {
   flex-direction: column;
   flex-wrap: wrap;
 }
+/*Back to top knop*/
+#backToTopBtn {
+  display: none;
+  position: fixed;
+  bottom: 20px;
+  right: 30px;
+  z-index: 99; /* zodat er geen overlap is */
+  border: none;
+  outline: none;
+  background-color: #ee1515; /* pokeball rood*/
+  color: white;
+  cursor: pointer;
+  padding: 15px;
+  border-radius: 10px;
+  font-size: 18px;
+}
 
+#backToTopBtn:hover {
+  background-color: #555;
+}
 
 
 /* de Kaarten */

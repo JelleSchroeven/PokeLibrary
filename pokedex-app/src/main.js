@@ -9,6 +9,26 @@ let isLoading = false;
 
 console.log("Script gestart");
 
+// Get the button:
+let scrollToTop = document.getElementById("backToTopBtn");
+
+// When the user scrolls down 20px from the top of the document, show the button
+window.onscroll = function() {scrollFunction()};
+
+function scrollFunction() {
+    if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
+        scrollToTop.style.display = "block";
+    } else {
+        scrollToTop.style.display = "none";
+    }
+}
+
+// When the user clicks on the button, scroll to the top of the document
+function topFunction() {
+    document.body.scrollTop = 0; // For Safari
+    document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+}
+
 function generatieNaarGetal(generationName) {
     const map = {
         "generation-i": 1,
@@ -202,16 +222,26 @@ window.addEventListener("DOMContentLoaded", () =>{
 
     getPokemonBatch(offset, limit);
 
+    //naar de top scrollen
+    document.getElementById('backToTopBtn').addEventListener('click',topFunction)
 
-    //  Lazy loading bij scroll
+    //  Lazy loading bij scroll zonder dat het doorgaat bij filters
     window.addEventListener("scroll", () => {
+        const isFiltered =
+            document.getElementById('generation-filter').value !== "all" ||
+            document.getElementById('type-filter').value !== "all" ||
+            document.getElementById('search').value.trim() !== "" ||
+            document.getElementById('favorites-only').checked;
+
         if (
-            window.innerHeight + window.scrollY >= document.body.offsetHeight - 80  &&
-            !isLoading
+            window.innerHeight + window.scrollY >= document.body.offsetHeight - 80 &&
+            !isLoading &&
+            !isFiltered //  LAZY LOADING UIT als er een filter actief is
         ) {
             offset += limit;
             getPokemonBatch(offset, limit);
-
         }
     });
 });
+
+
