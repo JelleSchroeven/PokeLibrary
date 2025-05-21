@@ -78,7 +78,9 @@
 - [StackOverflow - WebStorm warnings](https://stackoverflow.com/questions/20835544/how-to-fight-tons-of-unresolved-variables-warning-in-webstorm)
 - Zon-icoon: [PNGEgg Zon](https://www.pngegg.com/en/png-fnkkd)
 - Maan-icoon: [PNGEgg Maan](https://www.pngegg.com/en/png-fnkke/download)
-- **AI Chatlog**: Advies en debugging via ChatGPT (OpenAI)
+- [favorieten knop: ](https://gathering.tweakers.net/forum/list_messages/390126)
+- [AI Chatlog : checken of de repo voldoet aan de opgave]( https://chatgpt.com/share/682e3e64-aafc-800a-afff-090f2ef0d5d3)
+  
 
 ---
 
