@@ -266,7 +266,7 @@ function toggleTheme() {
 }
 function updateThemeIcon(theme) {
     const icon = document.getElementById("theme-icon");
-    icon.src = theme === "dark" ? "img/sun.svg" : "img/moon.svg";
+    icon.src = theme === "dark" ? "/sun-icon.png" : "/moon-icon.png";
 
 }
 document.addEventListener("DOMContentLoaded", () => {
@@ -281,14 +281,14 @@ document.addEventListener("DOMContentLoaded", () => {
     // Zet huidige thema uit localStorage of default op light
     const savedTheme = localStorage.getItem("theme") || "light";
     document.body.classList.add(`${savedTheme}-theme`);
-    themeIcon.src = savedTheme === "dark" ? "img/sun.svg" : "img/moon.svg";
+    themeIcon.src = savedTheme === "dark" ? "/sun-icon.png" : "/moon-icon.png";
 
     themeToggle.addEventListener("click", () => {
         const isDark = document.body.classList.contains("dark-theme");
         document.body.classList.toggle("dark-theme", !isDark);
         document.body.classList.toggle("light-theme", isDark);
         localStorage.setItem("theme", isDark ? "light" : "dark");
-        themeIcon.src = isDark ? "img/moon.svg" : "img/sun.svg";
+        themeIcon.src = isDark ? "/moon-icon.png" : "/sun-icon.png";
     });
 });
 
