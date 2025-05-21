@@ -16,7 +16,7 @@ Welkom bij **PokéLibrary**, een interactieve Pokedex-webapp gebouwd met HTML, C
 Onderstaande concepten zijn toegepast in dit project, met concrete voorbeelden:
 
 | Concept             | Toelichting                                                                 | Voorbeeld (regel)               |
-|---------------------|------------------------------------------------------------------------------|---------------------------------|
+|---------------------|-----------------------------------------------------------------------------|---------------------------------|
 | `Array.map()`       | Transformeert de lijst van opgehaalde Pokémon-URLs naar gedetailleerde data | `data.results.map(...)` (regel 11) |
 | `Array.filter()`    | Filtert de lijst o.b.v. zoekterm, type, generatie en favoriet               | `allPokemon.filter(...)` (regel 74) |
 | `Array.sort()`      | Sorteert Pokémon op ID, naam, gewicht of grootte                            | `filtered.sort(...)` (regel 89) |
@@ -47,7 +47,7 @@ src/
 ## bronnen 
 
 stack Overflow: https://stackoverflow.com/questions/20835544/how-to-fight-tons-of-unresolved-variables-warning-in-webstorm
-
+Mozilla: https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_flexible_box_layout/Aligning_items_in_a_flex_container
 
 ---
 ## Auteur

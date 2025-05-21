@@ -4,7 +4,7 @@ let allPokemon = []
 //nodig voor lazy loading
 let loadedPokemon = [];
 let offset = 0;
-const limit = 50;
+const limit = 40;
 let isLoading = false;
 
 console.log("Script gestart");
@@ -22,6 +22,27 @@ function generatieNaarGetal(generationName) {
     };
     return map[generationName] || '?';
 }
+
+// Laad op de achtergrond alle Pokémon (voor correcte filters & zoekfunctie)
+async function preloadAllPokemon() {
+    try {
+        const response = await fetch('https://pokeapi.co/api/v2/pokemon?limit=898');
+        const data = await response.json();
+
+        const batch = await Promise.all(data.results.map(async p => {
+            const pokemonData = await fetch(p.url).then(r => r.json());
+            const speciesData = await fetch(pokemonData.species.url).then(r => r.json());
+            pokemonData.generation = speciesData.generation.name;
+            return pokemonData;
+        }));
+
+        allPokemon = batch;
+        console.log("✅ Alle Pokémon vooraf geladen");
+    } catch (error) {
+        console.error("Fout bij preload:", error);
+    }
+}
+
 // lazy loading  ophalen pokemon
 async function getPokemonBatch(offset, limit) {
     console.log(`Bezig met batch ophalen: offset ${offset}, limit ${limit}`);
@@ -169,11 +190,12 @@ window.addEventListener("DOMContentLoaded", () =>{
 
 
     getPokemonBatch(offset, limit);
+    preloadAllPokemon();
 
     //  Lazy loading bij scroll
     window.addEventListener("scroll", () => {
         if (
-            window.innerHeight + window.scrollY >= document.body.offsetHeight - 100  &&
+            window.innerHeight + window.scrollY >= document.body.offsetHeight - 80  &&
             !isLoading
         ) {
             offset += limit;
