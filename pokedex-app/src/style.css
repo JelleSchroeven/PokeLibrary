@@ -4,6 +4,29 @@ body {
   background-color: #f4f4f4;
 }
 
+#main-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px;
+  gap: 16px;
+}
+
+#main-header h1 {
+  margin: 0;
+  font-size: 1.8rem;
+  flex: 1 1 auto;
+}
+
+#main-header .headerFilter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  flex: 2 1 auto;
+}
+
+
 .zoekbalk {
   display:flex;
   justify-content: center;
@@ -97,7 +120,33 @@ h1 {
 
 
 /*Thema kiezen */
+.theme-btn {
+  background-color: #ffffff88; /* licht transparant wit */
+  border: 2px solid #ccc;
+  border-radius: 50%;
+  padding: 6px;
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  z-index: 1000;
+  cursor: pointer;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s, border-color 0.3s;
+}
+body.dark-theme .theme-btn {
+  background-color: #2a2a2a88;
+  border-color: #888;
+}
+.theme-btn img {
+  width: 32px;
+  height: 32px;
+  transition: transform 0.3s ease;
+  display: block;
+}
 
+.theme-btn img:hover {
+  transform: scale(1.1);
+}
 /* Basisthema (licht) */
 body.light-theme {
   background-color: #f0f0f0;
@@ -124,5 +173,23 @@ header.dark-theme {
   background-color: #1c1c1c;
   color: #eee;
 }
+
+/*Kleiner schermen header*/
+  @media (max-width: 600px) {
+    #main-header {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    #main-header h1 {
+      align-self: flex-start;
+    }
+
+    .theme-btn {
+      top: 10px;
+      right: 10px;
+      transform: scale(0.9);
+    }
+  }
 
 

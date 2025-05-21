@@ -50,6 +50,8 @@ stack Overflow: https://stackoverflow.com/questions/20835544/how-to-fight-tons-o
 Mozilla: https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_flexible_box_layout/Aligning_items_in_a_flex_container
 Mozilla: https://developer.mozilla.org/en-US/docs/Web/Performance/Guides/Lazy_loading
 https://www.w3schools.com/howto/howto_js_scroll_to_top.asp  
+Afbeelding zon: https://www.pngegg.com/en/png-fnkkd
+Afbeelding maan: https://www.pngegg.com/en/png-fnkke/download
 ---
 ## Auteur
 

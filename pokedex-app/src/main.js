@@ -1,6 +1,7 @@
 import './style.css';
 
 let allPokemon = []
+
 //nodig voor lazy loading
 let loadedPokemon = [];
 let offset = 0;
@@ -23,11 +24,11 @@ function scrollFunction() {
     }
 }
 
-// When the user clicks on the button, scroll to the top of the document
 function topFunction() {
-    document.body.scrollTop = 0; // For Safari
-    document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
 }
+
 
 function generatieNaarGetal(generationName) {
     const map = {
@@ -228,6 +229,7 @@ window.addEventListener("DOMContentLoaded", () =>{
     // Thema onthouden en toepassen
     const savedTheme = localStorage.getItem("theme") || "light";
     document.body.classList.add(`${savedTheme}-theme`);
+    updateThemeIcon(savedTheme);
 
     document.getElementById("theme-toggle").addEventListener("click", toggleTheme);
 
@@ -258,6 +260,36 @@ function toggleTheme() {
 
     document.body.classList.remove(`${currentTheme}-theme`);
     document.body.classList.add(`${newTheme}-theme`);
-
     localStorage.setItem("theme", newTheme);
-};
+
+    updateThemeIcon(newTheme); // <- update het icoon
+}
+function updateThemeIcon(theme) {
+    const icon = document.getElementById("theme-icon");
+    icon.src = theme === "dark" ? "img/sun.svg" : "img/moon.svg";
+
+}
+document.addEventListener("DOMContentLoaded", () => {
+    const themeToggle = document.getElementById("theme-toggle");
+    const themeIcon = document.getElementById("theme-icon");
+
+    if (!themeToggle || !themeIcon) {
+        console.error("Theme toggle knop of icoon niet gevonden");
+        return;
+    }
+
+    // Zet huidige thema uit localStorage of default op light
+    const savedTheme = localStorage.getItem("theme") || "light";
+    document.body.classList.add(`${savedTheme}-theme`);
+    themeIcon.src = savedTheme === "dark" ? "img/sun.svg" : "img/moon.svg";
+
+    themeToggle.addEventListener("click", () => {
+        const isDark = document.body.classList.contains("dark-theme");
+        document.body.classList.toggle("dark-theme", !isDark);
+        document.body.classList.toggle("light-theme", isDark);
+        localStorage.setItem("theme", isDark ? "light" : "dark");
+        themeIcon.src = isDark ? "img/moon.svg" : "img/sun.svg";
+    });
+});
+
+
