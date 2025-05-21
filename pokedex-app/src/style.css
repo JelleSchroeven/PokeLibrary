@@ -96,5 +96,33 @@ h1 {
 }
 
 
+/*Thema kiezen */
+
+/* Basisthema (licht) */
+body.light-theme {
+  background-color: #f0f0f0;
+  color: #222;
+}
+
+body.light-theme .card {
+  background-color: white;
+  color: #000;
+}
+
+/* Donkere modus */
+body.dark-theme {
+  background-color: #121212;
+  color: #ddd;
+}
+
+body.dark-theme .card {
+  background-color: #1e1e1e;
+  color: #fff;
+}
+
+header.dark-theme {
+  background-color: #1c1c1c;
+  color: #eee;
+}
 
 

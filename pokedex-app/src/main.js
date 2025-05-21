@@ -225,6 +225,12 @@ window.addEventListener("DOMContentLoaded", () =>{
     //naar de top scrollen
     document.getElementById('backToTopBtn').addEventListener('click',topFunction)
 
+    // Thema onthouden en toepassen
+    const savedTheme = localStorage.getItem("theme") || "light";
+    document.body.classList.add(`${savedTheme}-theme`);
+
+    document.getElementById("theme-toggle").addEventListener("click", toggleTheme);
+
     //  Lazy loading bij scroll zonder dat het doorgaat bij filters
     window.addEventListener("scroll", () => {
         const isFiltered =
@@ -242,6 +248,16 @@ window.addEventListener("DOMContentLoaded", () =>{
             getPokemonBatch(offset, limit);
         }
     });
+
 });
 
+// Thema wisselen
+function toggleTheme() {
+    const currentTheme = document.body.classList.contains("dark-theme") ? "dark" : "light";
+    const newTheme = currentTheme === "dark" ? "light" : "dark";
 
+    document.body.classList.remove(`${currentTheme}-theme`);
+    document.body.classList.add(`${newTheme}-theme`);
+
+    localStorage.setItem("theme", newTheme);
+};
