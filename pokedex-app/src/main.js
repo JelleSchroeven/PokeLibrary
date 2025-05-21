@@ -37,7 +37,7 @@ async function preloadAllPokemon() {
         }));
 
         allPokemon = batch;
-        console.log("✅ Alle Pokémon vooraf geladen");
+        console.log(" Alle Pokémon vooraf geladen");
     } catch (error) {
         console.error("Fout bij preload:", error);
     }
@@ -60,8 +60,12 @@ async function getPokemonBatch(offset, limit) {
         }));
 
         allPokemon.push(...batch);
-        loadedPokemon.push(...batch);
-        applyFilters(); // Laatste filtering toepassen op volledige lijst
+
+        const loadedIds = new Set(loadedPokemon.map(p => p.id));
+        const uniqueBatch = batch.filter(p => !loadedIds.has(p.id));
+        loadedPokemon.push(...uniqueBatch);
+
+        showPokemon(loadedPokemon);
 
     } catch (error) {
         console.error("Fout bij het laden van Pokémon batch:", error);
@@ -128,8 +132,15 @@ function showPokemon(pokemonList) {
 
 
 /** zoekfunctie en Filters **/
+let hasPreloaded = false;
 
-function applyFilters() {
+async function applyFilters() {
+
+    if (!hasPreloaded) {
+        await preloadAllPokemon();
+        hasPreloaded = true;
+    }
+
     const searchTerm = document.getElementById('search').value.toLowerCase();/** filter op Zoekbalk**/
     const selectedType = document.getElementById('type-filter').value;/** filter op Type**/
     const selectedGeneration = document.getElementById('generation-filter').value;/** filter op generatie**/
@@ -190,7 +201,7 @@ window.addEventListener("DOMContentLoaded", () =>{
 
 
     getPokemonBatch(offset, limit);
-    preloadAllPokemon();
+
 
     //  Lazy loading bij scroll
     window.addEventListener("scroll", () => {
@@ -204,7 +215,3 @@ window.addEventListener("DOMContentLoaded", () =>{
         }
     });
 });
-
-
-
-
