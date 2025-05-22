@@ -1,13 +1,14 @@
 import './style.css';
 
+
+// lazy loading , laat eerstse 40 in 1 keer 
 let allPokemon = [];
 let loadedPokemon = [];
 let offset = 0;
 const limit = 40;
 let isLoading = false;
 
-console.log("Script gestart");
-
+//terug naar top functie
 function scrollFunction() {
     const scrollToTop = document.getElementById("backToTopBtn");
     if (!scrollToTop) return;
@@ -23,7 +24,7 @@ function topFunction() {
     document.body.scrollTop = 0;
     document.documentElement.scrollTop = 0;
 }
-
+// zet de generatie namen om naar getallen
 function generatieNaarGetal(generationName) {
     const map = {
         "generation-i": 1,
@@ -38,7 +39,7 @@ function generatieNaarGetal(generationName) {
     return map[generationName] || '?';
 }
 
-// Laad op de achtergrond alle Pokémon (voor correcte filters & zoekfunctie)
+// Laad op de achtergrond alle Pokémon (voor filters & zoekfuncties correct te doen werken)
 async function preloadAllPokemon() {
     try {
         const response = await fetch('https://pokeapi.co/api/v2/pokemon?limit=898');
@@ -58,7 +59,7 @@ async function preloadAllPokemon() {
     }
 }
 
-// Lazy loading ophalen pokemon
+// Lazy loading ophalen volgende 40 pokemon
 async function getPokemonBatch(offset, limit) {
     console.log(`Bezig met batch ophalen: offset ${offset}, limit ${limit}`);
     isLoading = true;
@@ -140,7 +141,7 @@ function showPokemon(pokemonList) {
     });
 }
 
-// Filters toepassen
+// Filters toepassen op getoonde pokemon
 let hasPreloaded = false;
 
 async function applyFilters() {
@@ -148,7 +149,7 @@ async function applyFilters() {
         await preloadAllPokemon();
         hasPreloaded = true;
     }
-
+//alle filterrrs en zoekbalk
     const searchTerm = document.getElementById('search').value.toLowerCase();
     const selectedType = document.getElementById('type-filter').value;
     const selectedGeneration = document.getElementById('generation-filter').value;
@@ -164,7 +165,7 @@ async function applyFilters() {
 
         return nameMatches && typeMatches && generationMatches && isFavorite;
     });
-
+//sorteer functie
     filtered.sort((a, b) => {
         switch (sortOption) {
             case 'name-asc': return a.name.localeCompare(b.name);
@@ -182,7 +183,7 @@ async function applyFilters() {
     showPokemon(filtered);
 }
 
-// Start script zodra DOM geladen is
+// Start script zodra DOM geladen is, laat en checked of er een filter is geactiveerd / geselecteerd
 window.addEventListener("DOMContentLoaded", () => {
     document.getElementById('generation-filter').addEventListener('change', applyFilters);
     document.getElementById('type-filter').addEventListener('change', applyFilters);
@@ -191,10 +192,10 @@ window.addEventListener("DOMContentLoaded", () => {
     document.getElementById('favorites-only').addEventListener('change', applyFilters);
 
     getPokemonBatch(offset, limit);
-
+// is er geklikt op de back to top knop?
     document.getElementById('backToTopBtn').addEventListener('click', topFunction);
     window.onscroll = scrollFunction;
-
+// dark of light theme laatste keer?
     const savedTheme = localStorage.getItem("theme") || "light";
     document.body.classList.add(`${savedTheme}-theme`);
     updateThemeIcon(savedTheme);
@@ -206,7 +207,7 @@ window.addEventListener("DOMContentLoaded", () => {
         console.error("Theme toggle knop of icoon niet gevonden");
         return;
     }
-
+//is de thema knop geklickt?
     themeToggle.addEventListener("click", () => {
         const isDark = document.body.classList.contains("dark-theme");
         document.body.classList.toggle("dark-theme", !isDark);
