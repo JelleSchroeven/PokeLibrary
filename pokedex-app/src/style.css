@@ -3,7 +3,7 @@ body {
   padding: 1rem;
   background-color: #f4f4f4;
 }
-
+/*HEADER*/
 #main-header {
   display: flex;
   flex-wrap: wrap;
@@ -25,8 +25,6 @@ body {
   gap: 12px;
   flex: 2 1 auto;
 }
-
-
 .zoekbalk {
   display:flex;
   justify-content: center;
@@ -56,6 +54,7 @@ body {
   flex-direction: column;
   flex-wrap: wrap;
 }
+
 /*Back to top knop*/
 #backToTopBtn {
   display: none;
@@ -97,6 +96,7 @@ body {
 .card:hover {
   transform: scale(1.3);/*kaarte je vergroot een beetje voor leesbaarheid*/
 }
+/*Favorieten knop op kaart*/
 .favorite-btn{
   background: none;
   border: none;
@@ -117,7 +117,6 @@ body {
 h1 {
   text-align: center;
 }
-
 
 /*Thema kiezen */
 .theme-btn {
